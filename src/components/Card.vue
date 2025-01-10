@@ -1,5 +1,8 @@
 <script setup lang="ts">
-type Status = "completed" | "pending" | "cancelled";
+import { currencyFormatter, dateFormat } from "@/utils/formatters";
+import StatusChip from "./StatusChip.vue";
+
+export type Status = "completed" | "pending" | "cancelled";
 
 type PaymentType = {
   name: "Visa card" | "Mastercard" | "Amex card" | (string & {});
@@ -22,25 +25,28 @@ const { transaction } = defineProps<{
 }>();
 
 const { status, paymentType, currency, date, retailer } = transaction;
+
 // If we had different currencies we would use something other than a hard
 // coded 100
-const dollarsAndCents = currency;
-
-const currencyFormatter = Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-});
+const dollarsAndCents = currency / 100;
 </script>
 
 <template>
-  <div class="grid grid-flow-row grid-cols-[2fr_3fr_2fr_2fr_1fr]">
-    <span class="flex items-center">{{ status }}</span>
+  <div
+    class="grid grid-flow-row grid-cols-[2fr_3fr_2fr_2fr_0.5fr] hover:bg-gray-100 px-8 last:border-b-0 py-6 border-b cursor-pointer"
+  >
+    <StatusChip :status />
     <div class="flex flex-col">
       <span class="font-bold">{{ paymentType.name }} ****{{ paymentType.digits }}</span>
       <span class="font-extralight">{{ paymentType.type }} payment</span>
     </div>
-    <span class="flex items-center">{{ currencyFormatter.format(dollarsAndCents) }}</span>
+    <div class="flex flex-col">
+      <span class="flex items-center font-bold">{{
+        currencyFormatter.format(dollarsAndCents)
+      }}</span>
+      <span>{{ dateFormat.format(date) }}</span>
+    </div>
     <span class="flex items-center">{{ retailer }}</span>
-    <button>...</button>
+    <button class="font-extrabold">...</button>
   </div>
 </template>

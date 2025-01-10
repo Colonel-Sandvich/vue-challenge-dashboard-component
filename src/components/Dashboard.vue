@@ -45,17 +45,18 @@ const data: Array<Transaction> = [
     },
     currency: 18294,
     date: new Date(),
-    retailer: "AmazonPrime",
+    retailer: "Amazon Prime",
   },
 ];
 </script>
 
 <template>
-  <div class="flex flex-col gap-6 bg-white p-8 rounded-3xl w-full">
-    <div>
-      <h2 class="font-bold">Transactions</h2>
+  <div class="flex flex-col bg-white rounded-3xl w-full max-w-screen-lg">
+    <div class="py-6 px-8">
+      <h2 class="font-bold text-xl">Transactions</h2>
+      <span class="font-light">Lorem Ipsum</span>
     </div>
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col">
       <Card v-for="transaction in data" :transaction />
     </div>
   </div>
